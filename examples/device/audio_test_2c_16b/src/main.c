@@ -287,7 +287,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
         audio_desc_channel_cluster_t ret;
 
         // Those are dummy values for now
-        ret.bNrChannels = 1;
+        ret.bNrChannels = CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX;
         ret.bmChannelConfig = (audio_channel_config_t) 0;
         ret.iChannelNames = 0;
 
@@ -397,15 +397,17 @@ bool tud_audio_tx_done_pre_load_cb(uint8_t rhport, uint8_t itf, uint8_t ep_in, u
   (void) ep_in;
   (void) cur_alt_setting;
 
-  static int32_t microphone_data[CFG_TUD_AUDIO_FUNC_1_EP_IN_SZ_MAX];
-  static int32_t startVal = 0;
+  static int16_t microphone_data[CFG_TUD_AUDIO_FUNC_1_EP_IN_SZ_MAX];
+  static int16_t startVal0 = 0;
+  static int16_t startVal1 = 0;
   uint32_t microphone_data_size = sampFreq / (TUD_OPT_HIGH_SPEED ? 8000 : 1000) * CFG_TUD_AUDIO_FUNC_1_N_CHANNELS_TX;
-  for (uint32_t i = 0; i < microphone_data_size; i++)
+  for (uint32_t i = 0; i < microphone_data_size; i += 2)
   {
-      microphone_data[i] = startVal += 1024*1024;
+      microphone_data[i] = startVal0 += 16;
+      microphone_data[i + 1] = startVal1 -= 16;
   }
 
-  tud_audio_write(microphone_data, microphone_data_size * sizeof(int32_t));
+  tud_audio_write(microphone_data, microphone_data_size * sizeof(int16_t));
 
   return true;
 }

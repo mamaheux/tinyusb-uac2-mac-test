@@ -212,7 +212,7 @@ bool tud_audio_set_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
 
         mute[channelNum] = ((audio_control_cur_1_t*) pBuff)->bCur;
 
-        TU_LOG2("    Set Mute: %d of channel: %u\r\n", mute[channelNum], channelNum);
+        TU_LOG1("    Set Mute: %d of channel: %u\r\n", mute[channelNum], channelNum);
       return true;
 
       case AUDIO_FU_CTRL_VOLUME:
@@ -221,7 +221,7 @@ bool tud_audio_set_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
 
         volume[channelNum] = (uint16_t) ((audio_control_cur_2_t*) pBuff)->bCur;
 
-        TU_LOG2("    Set Volume: %d dB of channel: %u\r\n", volume[channelNum], channelNum);
+        TU_LOG1("    Set Volume: %d dB of channel: %u\r\n", volume[channelNum], channelNum);
       return true;
 
         // Unknown/Unsupported control
@@ -291,7 +291,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
         ret.bmChannelConfig = (audio_channel_config_t) 0;
         ret.iChannelNames = 0;
 
-        TU_LOG2("    Get terminal connector\r\n");
+        TU_LOG1("    Get terminal connector\r\n");
 
         return tud_audio_buffer_and_schedule_control_xfer(rhport, p_request, (void*) &ret, sizeof(ret));
       }
@@ -312,18 +312,18 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
       case AUDIO_FU_CTRL_MUTE:
         // Audio control mute cur parameter block consists of only one byte - we thus can send it right away
         // There does not exist a range parameter block for mute
-        TU_LOG2("    Get Mute of channel: %u\r\n", channelNum);
+        TU_LOG1("    Get Mute of channel: %u\r\n", channelNum);
         return tud_control_xfer(rhport, p_request, &mute[channelNum], 1);
 
       case AUDIO_FU_CTRL_VOLUME:
         switch ( p_request->bRequest )
         {
           case AUDIO_CS_REQ_CUR:
-            TU_LOG2("    Get Volume of channel: %u\r\n", channelNum);
+            TU_LOG1("    Get Volume of channel: %u\r\n", channelNum);
             return tud_control_xfer(rhport, p_request, &volume[channelNum], sizeof(volume[channelNum]));
 
           case AUDIO_CS_REQ_RANGE:
-            TU_LOG2("    Get Volume range of channel: %u\r\n", channelNum);
+            TU_LOG1("    Get Volume range of channel: %u\r\n", channelNum);
 
             // Copy values - only for testing - better is version below
             audio_control_range_2_n_t(1)
@@ -360,11 +360,11 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
         switch ( p_request->bRequest )
         {
           case AUDIO_CS_REQ_CUR:
-            TU_LOG2("    Get Sample Freq.\r\n");
+            TU_LOG1("    Get Sample Freq.\r\n");
             return tud_control_xfer(rhport, p_request, &sampFreq, sizeof(sampFreq));
 
           case AUDIO_CS_REQ_RANGE:
-            TU_LOG2("    Get Sample Freq. range\r\n");
+            TU_LOG1("    Get Sample Freq. range\r\n");
             return tud_control_xfer(rhport, p_request, &sampleFreqRng, sizeof(sampleFreqRng));
 
            // Unknown/Unsupported control
@@ -376,7 +376,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
 
       case AUDIO_CS_CTRL_CLK_VALID:
         // Only cur attribute exists for this request
-        TU_LOG2("    Get Sample Freq. valid\r\n");
+        TU_LOG1("    Get Sample Freq. valid\r\n");
         return tud_control_xfer(rhport, p_request, &clkValid, sizeof(clkValid));
 
       // Unknown/Unsupported control
@@ -386,7 +386,7 @@ bool tud_audio_get_req_entity_cb(uint8_t rhport, tusb_control_request_t const * 
     }
   }
 
-  TU_LOG2("  Unsupported entity: %d\r\n", entityID);
+  TU_LOG1("  Unsupported entity: %d\r\n", entityID);
   return false; 	// Yet not implemented
 }
 
