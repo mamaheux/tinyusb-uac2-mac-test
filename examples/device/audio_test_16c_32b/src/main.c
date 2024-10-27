@@ -423,8 +423,8 @@ bool tud_audio_tx_done_pre_load_cb(uint8_t rhport, uint8_t itf, uint8_t ep_in, u
       microphone_data[i + 12] = startVals[12] += 1024*2048;
       microphone_data[i + 13] = startVals[13] -= 1024*2048;
 
-      microphone_data[i + 14] = startVals[12] += 1024*4096;
-      microphone_data[i + 15] = startVals[13] -= 1024*4096;
+      microphone_data[i + 14] = startVals[14] += 1024*4096;
+      microphone_data[i + 15] = startVals[15] -= 1024*4096;
   }
 
   tud_audio_write(microphone_data, microphone_data_size * sizeof(int32_t));
