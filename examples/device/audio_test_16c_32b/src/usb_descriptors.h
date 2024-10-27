@@ -26,7 +26,7 @@
 #ifndef _USB_DESCRIPTORS_H_
 #define _USB_DESCRIPTORS_H_
 
-#define TUD_AUDIO_DESC_FEATURE_UNIT_16_CHANNEL_LEN (6+(4+1)*4)
+#define TUD_AUDIO_DESC_FEATURE_UNIT_16_CHANNEL_LEN (6+(16+1)*4)
 #define TUD_AUDIO_DESC_FEATURE_UNIT_16_CHANNEL(_unitid, _srcid, _ctrlch0master, _ctrlch1, _ctrlch2, _ctrlch3, _ctrlch4, _ctrlch5, _ctrlch6, _ctrlch7, _ctrlch8, _ctrlch9, _ctrlch10, _ctrlch11, _ctrlch12, _ctrlch13, _ctrlch14, _ctrlch15, _ctrlch16, _stridx) \
     TUD_AUDIO_DESC_FEATURE_UNIT_16_CHANNEL_LEN, TUSB_DESC_CS_INTERFACE, AUDIO_CS_AC_INTERFACE_FEATURE_UNIT, _unitid, _srcid, U32_TO_U8S_LE(_ctrlch0master), U32_TO_U8S_LE(_ctrlch1), U32_TO_U8S_LE(_ctrlch2), U32_TO_U8S_LE(_ctrlch3), U32_TO_U8S_LE(_ctrlch4), _stridx
 
